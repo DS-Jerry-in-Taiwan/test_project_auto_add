@@ -14,7 +14,7 @@ jobs:
       - name: Add Issue or PR to Project
         uses: actions/add-to-project@v1.0.2
         with:
-          # 您高階看板的 URL 網址
-          project-url: https://github.com/orgs/1111corp/projects/5
-          # 需使用具備 1111corp 組織 Project 存取權限的 Personal Access Token (PAT)
+          # 預設指向 Search Engine #5 看板；若該 Repo 有設定 PROJECT_URL 變數則優先讀取
+          project-url: ${{ vars.PROJECT_URL || 'https://github.com/orgs/1111corp/projects/5' }}
+          # 讀取該 Repo 設定的 PAT Token
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
