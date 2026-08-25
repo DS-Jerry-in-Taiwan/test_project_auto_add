@@ -16,5 +16,5 @@ jobs:
         with:
           # 您高階看板的 URL 網址
           project-url: https://github.com/orgs/1111corp/projects/5
-          # 預設使用的權限 Token（若跨組織看板需具備 project: write 權限的 token 或 PAT）
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # 需使用具備 1111corp 組織 Project 存取權限的 Personal Access Token (PAT)
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
