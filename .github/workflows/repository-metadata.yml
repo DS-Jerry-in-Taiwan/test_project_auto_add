@@ -54,7 +54,7 @@ jobs:
       - name: Report minted token length (value never printed)
         env:
           MINTED: ${{ needs.app-token.outputs.token }}
-        run: echo "minted token length: ${#MINTED}"
+        run: echo "minted token length ${#MINTED}"
 
   repository-topics:
     needs: app-token
