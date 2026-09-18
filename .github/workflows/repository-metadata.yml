@@ -27,7 +27,28 @@ permissions:
   contents: read
 
 jobs:
+  app-token:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.app-token.outputs.token }}
+    steps:
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            team-docs-testbed
+            test_project_auto_add
+          permission-contents: read
+          permission-actions: read
+          permission-administration: write
+          skip-token-revoke: true
+
   repository-topics:
+    needs: app-token
     uses: DS-Jerry-in-Taiwan/team-docs-testbed/.github/workflows/repository-topics-sync.yml@76be75f205c9480c6b589e9f23ffc557a6f69d9d
     with:
       service_id: ${{ inputs.service_id }}
@@ -37,5 +58,5 @@ jobs:
       artifact_name: ${{ inputs.artifact_name }}
       team_docs_ref: 76be75f205c9480c6b589e9f23ffc557a6f69d9d
     secrets:
-      team_docs_artifact_token: ${{ secrets.TEAM_DOCS_ARTIFACT_TOKEN }}
-      repository_topics_token: ${{ secrets.REPOSITORY_TOPICS_TOKEN }}
+      team_docs_artifact_token: ${{ needs.app-token.outputs.token }}
+      repository_topics_token: ${{ needs.app-token.outputs.token }}
