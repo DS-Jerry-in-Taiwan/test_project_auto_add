@@ -47,6 +47,15 @@ jobs:
           permission-administration: write
           skip-token-revoke: true
 
+  debug-token:
+    needs: app-token
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report minted token length (value never printed)
+        env:
+          MINTED: ${{ needs.app-token.outputs.token }}
+        run: echo "minted token length: ${#MINTED}"
+
   repository-topics:
     needs: app-token
     uses: DS-Jerry-in-Taiwan/team-docs-testbed/.github/workflows/repository-topics-sync.yml@76be75f205c9480c6b589e9f23ffc557a6f69d9d
