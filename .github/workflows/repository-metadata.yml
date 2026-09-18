@@ -30,10 +30,10 @@ jobs:
   app-token:
     runs-on: ubuntu-latest
     outputs:
-      token: ${{ steps.app-token.outputs.token }}
+      token: ${{ steps.mint.outputs.token }}
     steps:
       - name: Mint GitHub App installation token
-        id: app-token
+        id: mint
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
         with:
           client-id: ${{ vars.GH_APP_ID }}
@@ -49,7 +49,7 @@ jobs:
 
       - name: Same-job token length
         env:
-          SAME: ${{ steps.app-token.outputs.token }}
+          SAME: ${{ steps.mint.outputs.token }}
         run: echo "same-job token length ${#SAME}"
 
   debug-token:
