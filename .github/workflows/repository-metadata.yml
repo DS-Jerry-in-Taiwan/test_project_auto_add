@@ -1,0 +1,41 @@
+name: Repository metadata (testbed caller)
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_id:
+        description: Service identifier
+        required: true
+        default: litellm
+        type: string
+      environment:
+        description: Environment identifier
+        required: true
+        default: dev
+        type: string
+      handoff_id:
+        description: Producer run ID that uploaded the verified handoff artifact
+        required: true
+        type: string
+      artifact_name:
+        description: verified-ap-handoff-<service>-<environment>-<handoff_id>
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  repository-topics:
+    uses: DS-Jerry-in-Taiwan/team-docs-testbed/.github/workflows/repository-topics-sync.yml@76be75f205c9480c6b589e9f23ffc557a6f69d9d
+    with:
+      service_id: ${{ inputs.service_id }}
+      environment: ${{ inputs.environment }}
+      handoff_id: ${{ inputs.handoff_id }}
+      consumer_run_id: ${{ github.run_id }}
+      artifact_name: ${{ inputs.artifact_name }}
+      team_docs_ref: 76be75f205c9480c6b589e9f23ffc557a6f69d9d
+    secrets:
+      team_docs_artifact_token: ${{ secrets.TEAM_DOCS_ARTIFACT_TOKEN }}
+      repository_topics_token: ${{ secrets.REPOSITORY_TOPICS_TOKEN }}
