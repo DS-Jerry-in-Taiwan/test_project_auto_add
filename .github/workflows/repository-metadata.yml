@@ -47,6 +47,11 @@ jobs:
           permission-administration: write
           skip-token-revoke: true
 
+      - name: Same-job token length
+        env:
+          SAME: ${{ steps.app-token.outputs.token }}
+        run: echo "same-job token length ${#SAME}"
+
   debug-token:
     needs: app-token
     runs-on: ubuntu-latest
